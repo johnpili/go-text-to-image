@@ -3,7 +3,6 @@ package controllers
 import (
 	"bytes"
 	"encoding/base64"
-	"errors"
 	"fmt"
 	"golang.org/x/image/draw"
 	"image"
@@ -12,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"runtime"
 	"strconv"
 	"strings"
 
@@ -36,18 +34,7 @@ func (z *PageController) RequestMapping(router *bone.Mux) {
 }
 
 func (z *PageController) loadFont() (*truetype.Font, error) {
-	os := runtime.GOOS
-	switch os {
-	case "windows":
-		z.fontFile = "C:\\Windows\\Fonts\\Calibri\\Calibri Regular.ttf"
-	case "darwin":
-		z.fontFile = "/System/Library/Fonts/SFNSMono.ttf"
-	case "linux":
-		z.fontFile = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
-	default:
-		return nil, errors.New("unknown OS, cannot decide font")
-	}
-
+	z.fontFile = "static/fonts/UbuntuMono-R.ttf"
 	fontBytes, err := ioutil.ReadFile(z.fontFile)
 	if err != nil {
 		return nil, err
