@@ -1,0 +1,76 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{block "title" .}}Generate Text to Image in Go{{end}}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <link rel=”canonical” href="" />
+    <meta name="description" />    
+    <link rel="stylesheet" href="/static/vendors/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/vendors/fontawesome-free-5.11.2-web/css/all.css" />
+    <link rel="stylesheet" href="/static/css/white-knight.css" />
+    <link rel="stylesheet" href="/static/css/site.css" />
+
+    <script src="/static/vendors/jquery/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="/static/vendors/bootstrap-4.5.3-dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/static/vendors/malihu-custom-scrollbar-plugin-3.1.5/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="root">
+        <div id="wrapper-navbar">
+            <a class="skip-link sr-only sr-only-focusable" href="#content">Skip to content</a>
+            <nav class="navbar navbar-expand-md navbar-light">
+                <div class="container pl-2 py-2">
+                    <a href="/" class="navbar-brand custom-logo-link" rel="home" aria-current="page">Text to Image in Go</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 py-5">
+                    <main class="page-content">
+                        {{block "content" .}}Have you seen the content writer?{{end}}
+                    </main>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content, #navbar-custom').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
+            $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+                if (!$(this).next().hasClass('show')) {
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+                }
+                var $subMenu = $(this).next(".dropdown-menu");
+                $subMenu.toggleClass('show');
+
+
+                $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                    $('.dropdown-submenu .show').removeClass("show");
+                });
+                return false;
+            });
+
+        });
+    </script>
+    {{block "scripts" .}}{{end}}
+</body>
+</html>
+{{end}}

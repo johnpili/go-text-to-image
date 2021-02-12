@@ -1,0 +1,23 @@
+{{define "title"}}{{.Title}}{{end}}
+{{define "content"}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 pt-5">
+                        <img src="{{.Data.generatedImage}}" alt="Generated Image" style="width: 100%;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 pt-5">                        
+                        <a href="javascript:history.back()" class="btn btn-primary btn-sm">Go Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "scripts"}}
+{{end}}

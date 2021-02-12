@@ -1,0 +1,37 @@
+# Project
+.project
+.settings
+.vscode
+.history
+.idea
+
+# Executable
+go-text-to-image
+go-text-to-image.exe
+
+# mac crap
+.DS_Store
+
+# livereload helper
+gin-bin
+
+# Logs
+logs
+
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# SSL/TLS
+server.crt
+server.key
+
+# JSON Files
+*.json
+
+rice-box.go
+rice-box
+*rice-box.go
