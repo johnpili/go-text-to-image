@@ -1,23 +1,28 @@
 package main
 
 import (
+	"embed"
 	"flag"
+	"github.com/go-zoo/bone"
 	"github.com/johnpili/go-text-to-image/controllers"
 	"github.com/johnpili/go-text-to-image/models"
+	"github.com/psi-incontrol/go-sprocket/sprocket"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
-
-	rice "github.com/GeertJohan/go.rice"
-	"github.com/go-zoo/bone"
-	"github.com/psi-incontrol/go-sprocket/sprocket"
 )
 
 var (
 	configuration models.Config
+
+	//go:embed static/*
+	static embed.FS
+
+	//go:embed views/*
+	views embed.FS
 )
 
 func main() {
@@ -33,13 +38,26 @@ func main() {
 
 	sprocket.LoadYAML(configLocation, &configuration)
 
-	viewBox := rice.MustFindBox("views")
-	staticBox := rice.MustFindBox("static")
-	controllersHub := controllers.New(viewBox, nil, nil, &configuration)
-	staticFileServer := http.StripPrefix("/static/", http.FileServer(staticBox.HTTPBox()))
+	//var x *template.Template
+	//viewBox := rice.MustFindBox("views")
+	//staticBox := rice.MustFindBox("static")
+
+	//	tmp, err := viewbox.String(filenames[i])
+	//	if err != nil {
+	//return nil, err
+	//}
+
+	//	if i == 0 {
+	//		x, err = template.New("base").Parse(tmp)
+	//	} else {
+	//		x.New("content").Parse(tmp)
+	//	}
+
+	controllersHub := controllers.New(&views, &static, nil, &configuration)
+	//staticFileServer := http.StripPrefix("/static/", )
 
 	router := bone.New()
-	router.Get("/static/", staticFileServer)
+	router.Get("/static/", http.FileServer(http.FS(static)))
 	controllersHub.BindRequestMapping(router)
 
 	// CODE FROM https://medium.com/@mossila/running-go-behind-iis-ce1a610116df

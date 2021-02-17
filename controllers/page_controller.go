@@ -68,6 +68,7 @@ func (z *PageController) generateImage(textContent string, fgColorHex string, bg
 
 	loadedFont, err := z.loadFont()
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -114,7 +115,7 @@ func (z *PageController) TextToImageHandler(w http.ResponseWriter, r *http.Reque
 		{
 			page := page.New()
 			page.Title = "Generate Text to Image in Go"
-			renderPage(w, r, page, "base.html", "text-to-image-builder.html")
+			renderPage(w, r, page, "views/base.html", "views/text-to-image-builder.html")
 		}
 	case http.MethodPost:
 		{
@@ -146,7 +147,7 @@ func (z *PageController) TextToImageHandler(w http.ResponseWriter, r *http.Reque
 			data["generatedImage"] = str
 
 			page.SetData(data)
-			renderPage(w, r, page, "base.html", "text-to-image-result.html")
+			renderPage(w, r, page, "views/base.html", "views/text-to-image-result.html")
 		}
 	default:
 		{

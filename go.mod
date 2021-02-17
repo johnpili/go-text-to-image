@@ -1,6 +1,6 @@
 module github.com/johnpili/go-text-to-image
 
-go 1.15
+go 1.16
 
 require (
 	github.com/GeertJohan/go.rice v1.0.2
