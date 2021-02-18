@@ -139,15 +139,15 @@ func (z *PageController) TextToImageHandler(w http.ResponseWriter, r *http.Reque
 				return
 			}
 
-			str := "data:image/png;base64," + base64.StdEncoding.EncodeToString(b)
-			page := page.New()
-			page.Title = "Generate Text to Image in Go"
+			str := base64.StdEncoding.EncodeToString(b)
+			ppage := page.New()
+			ppage.Title = "Generate Text to Image in Go"
 
 			data := make(map[string]interface{})
 			data["generatedImage"] = str
 
-			page.SetData(data)
-			renderPage(w, r, page, "views/base.html", "views/text-to-image-result.html")
+			ppage.SetData(data)
+			renderPage(w, r, ppage, "views/base.html", "views/text-to-image-result.html")
 		}
 	default:
 		{

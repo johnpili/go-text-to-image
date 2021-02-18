@@ -37,22 +37,6 @@ func main() {
 	flag.Parse()
 
 	sprocket.LoadYAML(configLocation, &configuration)
-
-	//var x *template.Template
-	//viewBox := rice.MustFindBox("views")
-	//staticBox := rice.MustFindBox("static")
-
-	//	tmp, err := viewbox.String(filenames[i])
-	//	if err != nil {
-	//return nil, err
-	//}
-
-	//	if i == 0 {
-	//		x, err = template.New("base").Parse(tmp)
-	//	} else {
-	//		x.New("content").Parse(tmp)
-	//	}
-
 	controllersHub := controllers.New(&views, &static, nil, &configuration)
 	//staticFileServer := http.StripPrefix("/static/", )
 

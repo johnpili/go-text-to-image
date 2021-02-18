@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 
-	//rice "github.com/GeertJohan/go.rice"
 	"github.com/gorilla/sessions"
 	"github.com/psi-incontrol/go-sprocket/page"
 )
@@ -50,27 +49,12 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, filename
 		page.UIMapData = make(map[string]interface{})
 	}
 
-	//templateFS, err := template.ParseFS(view, "views/*")
-	//x, err := templates.New("base").ParseFiles(filenames ...)
-	//x, err := sprocket.GetTemplates(viewBox, filenames)
-
-	var x *template.Template
-	for i := 0; i < len(filenames); i++ {
-		buf, err := view.ReadFile(filenames[i])
-		//if err != nil {
-		//	panic(err)
-		//}
-		if err != nil {
-			//return nil, err
-			panic(err)
-		}
-		if i == 0 {
-			x, err = template.New("base").Parse(string(buf))
-		} else {
-			x.New("content").Parse(string(buf))
-		}
+	templateFS, err := template.ParseFS(view, "views/*")
+	x, err := templateFS.New("base").ParseFiles(filenames ...)
+	if err != nil {
+		log.Panic(err.Error())
 	}
-	err := x.Execute(w, page)
+	err = x.Execute(w, page)
 	if err != nil {
 		log.Panic(err.Error())
 	}
