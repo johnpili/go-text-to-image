@@ -6,11 +6,8 @@ A web application that converts text to image for media sharing in WhatsApp or s
 
 ## Required toolchain
 
-* Go 1.15
-* Install go.rice
-  * go get github.com/GeertJohan/go.rice
-  * go get github.com/GeertJohan/go.rice/rice
+* Go 1.16
     
 ## Build
 
-rice clean; rice embed-go; go build
+go build
