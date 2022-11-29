@@ -6,7 +6,7 @@ A web application that converts text to image for media sharing in WhatsApp or s
 
 ## Required toolchain
 
-* Go 1.16
+* Go 1.18
     
 ## Build
 
