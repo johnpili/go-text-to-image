@@ -7,13 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/golang/freetype"
-	"github.com/golang/freetype/truetype"
 	"github.com/johnpili/go-text-to-image/models"
 	"github.com/johnpili/go-text-to-image/page"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/image/font"
-	"gopkg.in/yaml.v2"
-	"html/template"
 	"image"
 	"image/color"
 	"image/draw"
@@ -181,57 +178,4 @@ func generateImage(textContent string, fgColorHex string, bgColorHex string, fon
 		return nil, err
 	}
 	return b.Bytes(), nil
-}
-
-func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, filenames ...string) {
-	page := vm.(*page.Page)
-
-	if page.Data == nil {
-		page.SetData(make(map[string]interface{}))
-	}
-
-	if page.ErrorMessages == nil {
-		page.ResetErrors()
-	}
-
-	if page.UIMapData == nil {
-		page.UIMapData = make(map[string]interface{})
-	}
-
-	templateFS, err := template.ParseFS(views, "views/*")
-	x, err := templateFS.New("base").ParseFiles(filenames...)
-	if err != nil {
-		log.Panic(err.Error())
-	}
-	err = x.Execute(w, page)
-	if err != nil {
-		log.Panic(err.Error())
-	}
-}
-
-func loadFont() (*truetype.Font, error) {
-	fontFile = "static/fonts/UbuntuMono-R.ttf"
-	fontBytes, err := os.ReadFile(fontFile)
-	if err != nil {
-		return nil, err
-	}
-	f, err := freetype.ParseFont(fontBytes)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
-}
-
-// This will handle the loading of config.yml
-func loadConfiguration(a string, b *models.Config) {
-	f, err := os.Open(a)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	decoder := yaml.NewDecoder(f)
-	err = decoder.Decode(b)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
 }
