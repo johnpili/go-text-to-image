@@ -37,7 +37,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, basePath
 
 func loadFont() (*truetype.Font, error) {
 	fontFile = "static/fonts/UbuntuMono-R.ttf"
-	fontBytes, err := os.ReadFile(fontFile)
+	fontBytes, err := static.ReadFile(fontFile)
 	if err != nil {
 		return nil, err
 	}
