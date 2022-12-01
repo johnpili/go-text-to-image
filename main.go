@@ -52,9 +52,9 @@ func main() {
 	v, _ := fs.Sub(f, "static")
 
 	router := httprouter.New()
-	router.ServeFiles("/static/*filepath", http.FS(v))
-	router.HandlerFunc("GET", "/", indexHandler)
-	router.HandlerFunc("POST", "/", indexHandler)
+	router.ServeFiles(fmt.Sprintf("%s%s", configuration.HTTP.BasePath, "/static/*filepath"), http.FS(v))
+	router.HandlerFunc("GET", fmt.Sprintf("%s%s", configuration.HTTP.BasePath, "/"), indexHandler)
+	router.HandlerFunc("POST", fmt.Sprintf("%s%s", configuration.HTTP.BasePath, "/"), indexHandler)
 
 	port := strconv.Itoa(configuration.HTTP.Port)
 	httpServer := &http.Server{
@@ -65,11 +65,11 @@ func main() {
 	}
 
 	if configuration.HTTP.IsTLS {
-		log.Printf("Server running at https://localhost:%s/\n", port)
+		log.Printf("Server running at https://localhost:%s%s/\n", port, configuration.HTTP.BasePath)
 		log.Fatal(httpServer.ListenAndServeTLS(configuration.HTTP.ServerCert, configuration.HTTP.ServerKey))
 		return
 	}
-	log.Printf("Server running at http://localhost:%s/\n", port)
+	log.Printf("Server running at http://localhost:%s%s/\n", port, configuration.HTTP.BasePath)
 	log.Fatal(httpServer.ListenAndServe())
 }
 
@@ -79,7 +79,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		{
 			p := page.New()
 			p.Title = "Generate Text to Image in Go"
-			renderPage(w, r, p, "views/base.html", "views/text-to-image-builder.html")
+			renderPage(w, r, p, configuration.HTTP.BasePath, "views/base.html", "views/text-to-image-builder.html")
 		}
 	case http.MethodPost:
 		{
@@ -110,7 +110,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			data["generatedImage"] = str
 
 			p.SetData(data)
-			renderPage(w, r, p, "views/base.html", "views/text-to-image-result.html")
+			renderPage(w, r, p, configuration.HTTP.BasePath, "views/base.html", "views/text-to-image-result.html")
 		}
 	default:
 		{

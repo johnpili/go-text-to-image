@@ -1,4 +1,5 @@
-http:    
+http:
+    base_path: ""
     port: 8080
     is_tls: false
     server_crt: "server.crt"

@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, filenames ...string) {
+func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, basePath string, filenames ...string) {
 	p := vm.(*page.Page)
 
 	if p.Data == nil {
@@ -26,6 +26,7 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, filename
 	if p.UIMapData == nil {
 		p.UIMapData = make(map[string]interface{})
 	}
+	p.UIMapData["basePath"] = basePath
 
 	templateFS := template.Must(template.New("base").ParseFS(views, filenames...))
 	err := templateFS.Execute(w, p)
