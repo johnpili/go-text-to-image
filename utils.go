@@ -27,12 +27,8 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, filename
 		p.UIMapData = make(map[string]interface{})
 	}
 
-	templateFS, err := template.ParseFS(views, "views/*")
-	x, err := templateFS.New("base").ParseFiles(filenames...)
-	if err != nil {
-		log.Panic(err.Error())
-	}
-	err = x.Execute(w, p)
+	templateFS := template.Must(template.New("base").ParseFS(views, filenames...))
+	err := templateFS.Execute(w, p)
 	if err != nil {
 		log.Panic(err.Error())
 	}

@@ -65,11 +65,11 @@ func main() {
 	}
 
 	if configuration.HTTP.IsTLS {
-		log.Printf("Server running at https://localhost/tools:%s/\n", port)
+		log.Printf("Server running at https://localhost:%s/\n", port)
 		log.Fatal(httpServer.ListenAndServeTLS(configuration.HTTP.ServerCert, configuration.HTTP.ServerKey))
 		return
 	}
-	log.Printf("Server running at http://localhost/tools:%s/\n", port)
+	log.Printf("Server running at http://localhost:%s/\n", port)
 	log.Fatal(httpServer.ListenAndServe())
 }
 
