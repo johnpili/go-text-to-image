@@ -90,13 +90,15 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 				fontSize = 32
 			}
 
-			fgColorHex := strings.Trim(r.FormValue("fgColor"), " ")
-			fgColorHex = strings.ToLower(fgColorHex)
+			fontName := strings.Trim(r.FormValue("fontName"), " ")
 
-			bgColorHex := strings.Trim(r.FormValue("bgColor"), " ")
-			bgColorHex = strings.ToLower(bgColorHex)
+			fontColorHex := strings.Trim(r.FormValue("fontColor"), " ")
+			fontColorHex = strings.ToLower(fontColorHex)
 
-			b, err := generateImage(textContent, fgColorHex, bgColorHex, fontSize)
+			backgroundColorHex := strings.Trim(r.FormValue("backgroundColor"), " ")
+			backgroundColorHex = strings.ToLower(backgroundColorHex)
+
+			b, err := generateImage(textContent, fontColorHex, backgroundColorHex, fontName, fontSize)
 			if err != nil {
 				log.Println(err)
 				return
@@ -118,27 +120,27 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func generateImage(textContent string, fgColorHex string, bgColorHex string, fontSize float64) ([]byte, error) {
+func generateImage(textContent string, fgColorHex string, bgColorHex string, fontName string, fontSize float64) ([]byte, error) {
 
-	fgColor := color.RGBA{0xff, 0xff, 0xff, 0xff}
+	fgColor := color.RGBA{R: 0xff, G: 0xff, B: 0xff, A: 0xff} // Default font color
 	if len(fgColorHex) == 7 {
 		_, err := fmt.Sscanf(fgColorHex, "#%02x%02x%02x", &fgColor.R, &fgColor.G, &fgColor.B)
 		if err != nil {
 			log.Println(err)
-			fgColor = color.RGBA{0x2e, 0x34, 0x36, 0xff}
+			fgColor = color.RGBA{R: 0x2e, G: 0x34, B: 0x36, A: 0xff}
 		}
 	}
 
-	bgColor := color.RGBA{0x30, 0x0a, 0x24, 0xff}
+	bgColor := color.RGBA{R: 0x30, G: 0x0a, B: 0x24, A: 0xff} // Default background color
 	if len(bgColorHex) == 7 {
 		_, err := fmt.Sscanf(bgColorHex, "#%02x%02x%02x", &bgColor.R, &bgColor.G, &bgColor.B)
 		if err != nil {
 			log.Println(err)
-			bgColor = color.RGBA{0x30, 0x0a, 0x24, 0xff}
+			bgColor = color.RGBA{R: 0x30, G: 0x0a, B: 0x24, A: 0xff}
 		}
 	}
 
-	loadedFont, err := loadFont()
+	loadedFont, err := loadFont(fontName)
 	if err != nil {
 		log.Println(err)
 		return nil, err

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
 	"github.com/johnpili/go-text-to-image/models"
@@ -10,6 +11,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+)
+
+const (
+	FreeMono   = "FreeMono.ttf"
+	FreeSans   = "FreeSans.ttf"
+	UbuntuMono = "UbuntuMono-R.ttf"
 )
 
 func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, basePath string, filenames ...string) {
@@ -35,8 +42,19 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, basePath
 	}
 }
 
-func loadFont() (*truetype.Font, error) {
-	fontFile = "static/fonts/UbuntuMono-R.ttf"
+func getFontMap(f string) string {
+	if f == "FreeSans" {
+		return FreeSans
+	} else if f == "FreeMono" {
+		return FreeMono
+	} else if f == "UbuntuMono" {
+		return UbuntuMono
+	}
+	return UbuntuMono
+}
+
+func loadFont(fn string) (*truetype.Font, error) {
+	fontFile = fmt.Sprintf("static/fonts/%s", getFontMap(fn))
 	fontBytes, err := static.ReadFile(fontFile)
 	if err != nil {
 		return nil, err

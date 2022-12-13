@@ -6,48 +6,49 @@
             <form action="{{.UIMapData.basePath}}/" method="post">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 pb-5">
-                            <h1>Text to Image</h1>
-                        </div>
-                    </div>                
-                    <div class="row">
                         <div class="col-12">
-                            <label>Text Content</label>
+                            <label>Enter Text</label>
                             <textarea name="textContent" class="form-control form-control-sm" maxlength="3000" style="width: 100%; height: 300px;"></textarea>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-sm-3">
-                            <div class="input-group input-group-sm my-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1" style="width: 150px;">Font Size</span>
-                                </div>
-                                <input name="fontSize" type="number" value="32" min="8" class="form-control" aria-label="Font size" aria-describedby="basic-addon1">                            
+                        <div class="col-12 col-sm-4">
+                            <div class="input-group mt-2 my-1">
+                                <span class="input-group-text" id="fontNameAddOn" style="width: 180px;">Font</span>
+                                <select name="fontName" class="form-control">
+                                    <option value="UbuntuMono">Ubuntu Mono</option>
+                                    <option value="FreeSans">FreeSans</option>
+                                    <option value="FreeMono">FreeMono</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="input-group my-1">
+                                <span class="input-group-text" id="fontSizeAddOn" style="width: 180px;">Font Size</span>
+                                <input name="fontSize" type="number" value="32" min="8" class="form-control" aria-label="Font size" aria-describedby="fontSizeAddOn">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <div class="input-group my-1">
+                                <span class="input-group-text" id="fgColorAddOn" style="width: 180px;">Font Color</span>
+                                <input type="color" name="fontColor" value="#ffffff" class="form-control form-control-color" aria-label="Font Color" aria-describedby="fgColorAddOn">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-sm-3">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1" style="width: 150px;">Font Color</span>
-                                </div>
-                                <input type="color" name="fgColor" value="#ffffff" class="form-control" aria-label="Font size" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-3">
-                            <div class="input-group input-group-sm mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1" style="width: 150px;">Background Color</span>
-                                </div>
-                                <input type="color" name="bgColor" value="#300a24" class="form-control" aria-label="Font size" aria-describedby="basic-addon1">
+                            <div class="input-group my-1">
+                                <span class="input-group-text" id="bgColorAddOn" style="width: 180px;">Background Color</span>
+                                <input type="color" name="backgroundColor" value="#300a24" class="form-control form-control-color" aria-label="Background Color" aria-describedby="bgColorAddOn">
                             </div>
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 pt-5">
+                        <div class="col-12 pt-4">
                             <button type="submit" class="btn btn-primary btn-sm">Generate</button>
                             <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
                         </div>
