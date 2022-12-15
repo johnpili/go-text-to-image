@@ -9,8 +9,10 @@ import (
 	"gopkg.in/yaml.v2"
 	"html/template"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 )
 
 const (
@@ -34,7 +36,6 @@ func renderPage(w http.ResponseWriter, r *http.Request, vm interface{}, basePath
 		p.UIMapData = make(map[string]interface{})
 	}
 	p.UIMapData["basePath"] = basePath
-
 	templateFS := template.Must(template.New("base").ParseFS(views, filenames...))
 	err := templateFS.Execute(w, p)
 	if err != nil {
@@ -78,4 +79,18 @@ func loadConfiguration(a string, b *models.Config) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+}
+
+func generateRandomBytes(length int) []byte {
+	s := ""
+	for i := 33; i <= 126; i++ {
+		s = s + fmt.Sprintf("%c", i)
+	}
+	rs := make([]byte, 0)
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < length; i++ {
+		delta := rand.Intn(len(s))
+		rs = append(rs, s[delta])
+	}
+	return rs
 }

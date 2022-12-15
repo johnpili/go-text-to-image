@@ -4,6 +4,7 @@
     <div class="row">
         <div class="col-12">
             <form action="{{.UIMapData.basePath}}/" method="post">
+                <input type="hidden" name="gorilla.csrf.Token" value="{{.CSRFToken}}">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">

@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/golang/freetype"
+	"github.com/gorilla/csrf"
 	"github.com/johnpili/go-text-to-image/models"
 	"github.com/johnpili/go-text-to-image/page"
 	"github.com/julienschmidt/httprouter"
@@ -56,10 +57,11 @@ func main() {
 	router.HandlerFunc("GET", fmt.Sprintf("%s%s", configuration.HTTP.BasePath, "/"), indexHandler)
 	router.HandlerFunc("POST", fmt.Sprintf("%s%s", configuration.HTTP.BasePath, "/"), indexHandler)
 
+	csrfProtection := csrf.Protect(generateRandomBytes(32))
 	port := strconv.Itoa(configuration.HTTP.Port)
 	httpServer := &http.Server{
 		Addr:         ":" + port,
-		Handler:      router,
+		Handler:      csrfProtection(router),
 		ReadTimeout:  120 * time.Second,
 		WriteTimeout: 120 * time.Second,
 	}
@@ -79,6 +81,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		{
 			p := page.New()
 			p.Title = "Generate Text to Image in Go"
+			p.CSRFToken = csrf.Token(r)
 			renderPage(w, r, p, configuration.HTTP.BasePath, "views/base.html", "views/text-to-image-builder.html")
 		}
 	case http.MethodPost:
@@ -107,6 +110,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			str := base64.StdEncoding.EncodeToString(b)
 			p := page.New()
 			p.Title = "Generate Text to Image in Go"
+			p.CSRFToken = csrf.Token(r)
 
 			data := make(map[string]interface{})
 			data["generatedImage"] = str
